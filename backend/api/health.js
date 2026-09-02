@@ -1,0 +1,1 @@
+import{corsMw,ok}from"../lib/http.js";import{query}from"../lib/db.js";export default async(req,res)=>{corsMw(req,res,async()=>{if(!ok(req,res,["GET"]))return;try{await query("SELECT 1");res.json({ok:true})}catch{res.status(500).json({message:"Database unavailable"})}})};

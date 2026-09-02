@@ -1,0 +1,2 @@
+import{useEffect,useState}from"react";import{Link}from"react-router-dom";import{endpoints}from"../services/api";import{Loading}from"../components/States";
+export default function Categories(){const[c,setC]=useState([]);useEffect(()=>endpoints.categories().then(r=>setC(r.data.categories||[])),[]);if(!c.length)return <Loading/>;return <section className="section"><h1>Categories</h1><div className="cats">{c.map(x=><Link to={`/category/${x.slug}`} key={x.id}><img src={x.image_url} alt={x.name}/><b>{x.name}</b></Link>)}</div></section>}

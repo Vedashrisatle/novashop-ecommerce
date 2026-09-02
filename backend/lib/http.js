@@ -1,0 +1,2 @@
+import cors from"cors";export const corsMw=cors({origin:(o,cb)=>!o||((process.env.FRONTEND_URL||"").split(",").map(x=>x.trim()).includes(o))?cb(null,true):cb(new Error("CORS origin not allowed")),methods:["GET","POST","PUT","DELETE","OPTIONS"],allowedHeaders:["Content-Type","Authorization"]});
+export const ok=(req,res,m)=>{if(!m.includes(req.method)){res.status(405).json({message:"Method not allowed"});return false}return true};

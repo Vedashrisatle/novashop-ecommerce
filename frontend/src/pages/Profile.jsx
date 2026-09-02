@@ -1,0 +1,1 @@
+import{useAuth}from"../context/AuthContext";export default function Profile(){const{user}=useAuth();return <section className="section"><h1>Profile</h1><div className="profile"><p>Name: {user.name}</p><p>Email: {user.email}</p><p>Phone: {user.phone}</p><p>Role: {user.role}</p></div></section>}
