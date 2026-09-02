@@ -1,66 +1,83 @@
 import "dotenv/config";
 import express from "express";
 
-import health from "./api/health.js";
+// ===============================
+// Route Handlers
+// ===============================
 
-import authRegister from "./api/auth/register.js";
-import authLogin from "./api/auth/login.js";
-import authMe from "./api/auth/me.js";
+// Health
+import health from "./routes/health.js";
 
-import products from "./api/products/index.js";
-import productById from "./api/products/[id].js";
+// Authentication
+import authRegister from "./routes/auth/register.js";
+import authLogin from "./routes/auth/login.js";
+import authMe from "./routes/auth/me.js";
 
-import categories from "./api/categories/index.js";
-import categoryById from "./api/categories/[id].js";
+// Products
+import products from "./routes/products/index.js";
+import productById from "./routes/products/[id].js";
 
-import cart from "./api/cart/index.js";
-import cartById from "./api/cart/[id].js";
+// Categories
+import categories from "./routes/categories/index.js";
+import categoryById from "./routes/categories/[id].js";
 
-import orders from "./api/orders/index.js";
-import orderById from "./api/orders/[id].js";
+// Cart
+import cart from "./routes/cart/index.js";
+import cartById from "./routes/cart/[id].js";
 
-import banners from "./api/banners/index.js";
-import bannerById from "./api/banners/[id].js";
+// Orders
+import orders from "./routes/orders/index.js";
+import orderById from "./routes/orders/[id].js";
 
-import testimonials from "./api/testimonials/index.js";
-import bookings from "./api/bookings/index.js";
+// Banners
+import banners from "./routes/banners/index.js";
+import bannerById from "./routes/banners/[id].js";
 
-import upload from "./api/upload/index.js";
+// Other
+import testimonials from "./routes/testimonials/index.js";
+import bookings from "./routes/bookings/index.js";
+
+// Cloudinary upload
+import upload from "./routes/upload/index.js";
+
 
 const app = express();
 
-const PORT = process.env.PORT || 3001;
 
-/*
-  JSON body parser.
-  Multipart/form-data used by Cloudinary upload
-  will pass through this middleware.
-*/
+// ===============================
+// Middleware
+// ===============================
+
+// Parse JSON request bodies
 app.use(express.json());
 
-/*
-  Basic request logging
-*/
+// Basic request logging
 app.use((req, _res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
 
-/*
-  Health
-*/
+
+// ===============================
+// Health
+// ===============================
+
 app.all("/api/health", health);
 
-/*
-  Authentication
-*/
+
+// ===============================
+// Authentication
+// ===============================
+
 app.all("/api/auth/register", authRegister);
 app.all("/api/auth/login", authLogin);
 app.all("/api/auth/me", authMe);
 
-/*
-  Products
-*/
+
+// ===============================
+// Products
+// ===============================
+
 app.all("/api/products", products);
 
 app.all("/api/products/:id", (req, res) => {
@@ -68,9 +85,11 @@ app.all("/api/products/:id", (req, res) => {
   return productById(req, res);
 });
 
-/*
-  Categories
-*/
+
+// ===============================
+// Categories
+// ===============================
+
 app.all("/api/categories", categories);
 
 app.all("/api/categories/:id", (req, res) => {
@@ -78,9 +97,11 @@ app.all("/api/categories/:id", (req, res) => {
   return categoryById(req, res);
 });
 
-/*
-  Cart
-*/
+
+// ===============================
+// Cart
+// ===============================
+
 app.all("/api/cart", cart);
 
 app.all("/api/cart/:id", (req, res) => {
@@ -88,9 +109,11 @@ app.all("/api/cart/:id", (req, res) => {
   return cartById(req, res);
 });
 
-/*
-  Orders
-*/
+
+// ===============================
+// Orders
+// ===============================
+
 app.all("/api/orders", orders);
 
 app.all("/api/orders/:id", (req, res) => {
@@ -98,9 +121,11 @@ app.all("/api/orders/:id", (req, res) => {
   return orderById(req, res);
 });
 
-/*
-  Banners
-*/
+
+// ===============================
+// Banners
+// ===============================
+
 app.all("/api/banners", banners);
 
 app.all("/api/banners/:id", (req, res) => {
@@ -108,24 +133,32 @@ app.all("/api/banners/:id", (req, res) => {
   return bannerById(req, res);
 });
 
-/*
-  Testimonials
-*/
+
+// ===============================
+// Testimonials
+// ===============================
+
 app.all("/api/testimonials", testimonials);
 
-/*
-  Bookings
-*/
+
+// ===============================
+// Bookings
+// ===============================
+
 app.all("/api/bookings", bookings);
 
-/*
-  Cloudinary upload
-*/
+
+// ===============================
+// Cloudinary Upload
+// ===============================
+
 app.all("/api/upload", upload);
 
-/*
-  404 handler
-*/
+
+// ===============================
+// API 404 Handler
+// ===============================
+
 app.use((req, res) => {
   res.status(404).json({
     message: "API route not found",
@@ -133,9 +166,11 @@ app.use((req, res) => {
   });
 });
 
-/*
-  Global error handler
-*/
+
+// ===============================
+// Global Error Handler
+// ===============================
+
 app.use((err, _req, res, _next) => {
   console.error("Server error:", err);
 
@@ -144,6 +179,10 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-export { app };
+
+// ===============================
+// Export for Vercel
+// ===============================
 
 export default app;
+export { app };
